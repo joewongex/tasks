@@ -1,0 +1,18 @@
+{
+  "redis": {
+    "host": "127.0.0.1",
+    "port": 6379,
+    "db": 0
+  },
+  "notify": {
+    "bark": {
+      "url": "",
+      "device_key": ""
+    }
+  },
+  "log": {
+    "level": "debug",
+    "file": "./logs/tasks.log",
+    "stdout": true
+  }
+}
