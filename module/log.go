@@ -24,7 +24,7 @@ func NewLog(config *Config) (logger *logrus.Logger, err error) {
 	writers := []io.Writer{}
 	file, err := os.OpenFile(config.Log.File, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0640)
 	if err != nil {
-		return		
+		return
 	}
 	writers = append(writers, file)
 

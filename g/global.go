@@ -2,6 +2,7 @@ package g
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -16,6 +17,17 @@ var (
 	Redis  *redis.Client
 	Log    *logrus.Logger
 )
+
+type logErrHook struct{}
+
+func (h *logErrHook) Levels() []logrus.Level {
+	return []logrus.Level{logrus.ErrorLevel, logrus.PanicLevel, logrus.FatalLevel}
+}
+
+func (h *logErrHook) Fire(e *logrus.Entry) error {
+	msg := fmt.Sprintf("程序发生[%s]错误：%s", e.Level.String(), e.Message)
+	return BarkNotify("Tasks定时任务", msg)
+}
 
 func init() {
 	var err error
@@ -39,4 +51,6 @@ func init() {
 	if err != nil {
 		Log.Fatalf("创建Redis模块失败：%v", err)
 	}
+
+	Log.AddHook(&logErrHook{})
 }

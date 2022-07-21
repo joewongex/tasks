@@ -1,6 +1,9 @@
 package module
 
-import "github.com/spf13/viper"
+import (
+	"github.com/fsnotify/fsnotify"
+	"github.com/spf13/viper"
+)
 
 type Config struct {
 	Redis struct {
@@ -29,5 +32,9 @@ func NewConfig() (config *Config, err error) {
 	}
 	config = new(Config)
 	err = viper.Unmarshal(config)
+	viper.WatchConfig()
+	viper.OnConfigChange(func(in fsnotify.Event) {
+		viper.Unmarshal(config)
+	})
 	return
 }
